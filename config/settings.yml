@@ -2,3 +2,6 @@ plugins:
   discourse_democracy_enabled:
     default: true
     client: true
+  discourse_democracy_delegation_types:
+    default: ""
+    client: true

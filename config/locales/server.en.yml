@@ -1,3 +1,4 @@
 en:
   site_settings:
     discourse_democracy_enabled: "Enable DiscourseDemocracy plugin"
+    discourse_democracy_delegation_types: "Types of delegations, separated by |"

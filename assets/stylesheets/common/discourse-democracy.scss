@@ -1,2 +1,13 @@
-.discourse-democracy {
+div.poll-voters > li.delegated > a > img {
+  height: 13px;
+  width: 13px;
+  margin-left: -8px;
+}
+
+.poll-container span.percentage.fillupVotes, .poll-container span.percentage.indirectVotes, .poll-container span.percentage.directVotes {
+  font-size: 50%;
+}
+
+.poll-container span.percentage.fillupVotes, .poll-container span.percentage.indirectVotes {
+  background: var(--primary-low);
 }

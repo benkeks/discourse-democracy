@@ -1,7 +1,6 @@
-export default function() {
-  this.route("discourse-democracy", function() {
-    this.route("actions", function() {
-      this.route("show", { path: "/:id" });
-    });
-  });
+export default {
+  resource: 'user',
+  map() {
+    this.route('delegations', { path: '/delegations', resetNamespace: true });
+  }
 };

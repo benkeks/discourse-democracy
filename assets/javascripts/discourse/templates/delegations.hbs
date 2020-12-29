@@ -1,0 +1,38 @@
+
+<section class='user-content'>
+  <form>
+    <label class="control-label">{{i18n "user.delegations.title"}}</label>
+    {{user-selector
+      single=true
+      onChangeCallback=(action "setProxyNames")
+      fullWidthWrap=false
+      allowAny=false
+      includeMessageableGroups=false
+      placeholderKey="composer.users_placeholder"
+      tabindex="1"
+      usernames=delegations
+      hasGroups=false
+      autocomplete="discourse"
+      excludeCurrentUser=true
+    }}
+
+    {{d-button
+      type="button"
+      class="btn-primary"
+      label="user.delegations.delegate"
+      action=(action "delegate")
+    }}
+    <div class="instructions">
+      {{html-safe (i18n "user.delegations.short_instructions" username=username)}}
+    </div>
+  </form>
+
+  <h2>{{html-safe (i18n "user.delegations.received" username=username)}}</h2>
+
+  <div class="mandator-users">
+    {{#each mandates as |user|}}
+      {{user-info user=user}}
+    {{/each}}
+  </div>
+
+</section>

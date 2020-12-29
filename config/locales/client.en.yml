@@ -1,3 +1,10 @@
 en:
   js:
+    user:
+      delegations_nav: "Delegations"
+      delegations:
+        title: "My Proxy"
+        delegate: "Delegate!"
+        short_instructions: "If you name a proxy, they can vote on your behalf. (You may always override this by voting yourself!)"
+        received: "People who have deleagted their vote to %{username}"
     discourse_democracy:
