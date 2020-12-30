@@ -23,6 +23,10 @@ load File.expand_path('../poll/app/models/poll_vote.rb', __dir__)
 # DiscoursePluginRegistry.serialized_current_user_fields << 'my_preference'
 
 after_initialize do
+
+  Notification.types[:democracy_delegation] = 1919
+  PostAlerter::NOTIFIABLE_TYPES.push(Notification.types[:democracy_delegation])
+
   load File.expand_path('lib/discourse-democracy/delegations_updater.rb', __dir__)
   load File.expand_path('app/controllers/discourse_democracy/delegations_controller.rb', __dir__)
   # https://github.com/discourse/discourse/blob/master/lib/plugin/instance.rb

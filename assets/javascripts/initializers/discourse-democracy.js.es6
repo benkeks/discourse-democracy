@@ -28,9 +28,9 @@ function _fetchVoters(data) {
   });
 }
 
-
 function initializeDiscourseDemocracy(api) {
-  //  
+
+  api.replaceIcon('notification.democracy_delegation', 'random');
 
   api.decorateWidget('discourse-poll-standard-results:after', helper => {
     return helper.h('p', 'Hello');
@@ -209,7 +209,6 @@ function initializeDiscourseDemocracy(api) {
       return h("div.poll-voters", contents);
     },
   });
-
 }
 
 export default {

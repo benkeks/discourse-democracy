@@ -1,4 +1,4 @@
 en:
   site_settings:
     discourse_democracy_enabled: "Enable DiscourseDemocracy plugin"
-    discourse_democracy_delegation_types: "Types of delegations, separated by |"
+    discourse_democracy_max_effective_delegations: "Maximum of delegated votes that are counted in a vote per proxy"

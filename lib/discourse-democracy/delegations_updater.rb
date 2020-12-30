@@ -43,30 +43,14 @@ class DiscourseDemocracy::DelegationsUpdater
     @user.custom_fields['dem_delegations'] = users_delegations
     @user.save_custom_fields(true)
 
-    # if follow
-    #   payload = {
-    #     notification_type: Notification.types[:following],
-    #     data: {
-    #       display_username: @follower.username,
-    #       following: true
-    #     }.to_json
-    #   }
-    #   send_notification(payload) if should_notify?(payload)
-    # end
+    if @proxy
+      payload = {
+        notification_type: Notification.types[:democracy_delegation],
+        data: {
+          display_username: @user.username,
+        }.to_json
+       }
+      @proxy.notifications.create!(payload)
+    end
   end
-  
-  # def should_notify?(payload)
-    # SiteSetting.follow_notifications_enabled &&
-    # @follower.notify_followed_user_when_followed &&
-    # @target.notify_me_when_followed &&
-    # !notification_sent_recently(payload)
-  # end
-  # 
-  # def send_notification(payload)
-    # @target.notifications.create!(payload)
-  # end
-  # 
-  # def notification_sent_recently(payload)
-    # @target.notifications.where(payload).where('created_at >= ?', 1.day.ago).exists?
-  # end
 end
