@@ -4,8 +4,8 @@ en:
       delegations_nav: "Delegations"
       delegations:
         title: "My Proxy"
-        short_instructions: "If you name a proxy, they can vote on your behalf. (You may always override this by voting yourself!)"
-        received: "People who have deleagted their vote to %{username}"
+        short_instructions: "If you name a proxy, they can vote on your behalf. (You may always override this by voting yourself.)"
+        received: "People who have delegated their vote to %{username}"
     discourse_democracy:
     notifications:
       democracy_delegation: "<span>{{username}}</span> delegated their vote to you!"

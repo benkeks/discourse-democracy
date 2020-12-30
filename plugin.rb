@@ -19,8 +19,10 @@ load File.expand_path('config/routes.rb', __dir__)
 
 load File.expand_path('../poll/app/models/poll_vote.rb', __dir__)
 
+
 after_initialize do
 
+  require_dependency 'post_alerter'
   Notification.types[:democracy_delegation] = 1919
   PostAlerter::NOTIFIABLE_TYPES.push(Notification.types[:democracy_delegation])
 

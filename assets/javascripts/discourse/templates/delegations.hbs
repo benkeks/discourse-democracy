@@ -1,5 +1,6 @@
 
 <section class='user-content'>
+  {{#if showSelection}}
   <form>
     <label class="control-label">{{i18n "user.delegations.title"}}</label>
     {{user-selector
@@ -19,6 +20,7 @@
       {{html-safe (i18n "user.delegations.short_instructions" username=username)}}
     </div>
   </form>
+  {{/if}}
 
   <h2>{{html-safe (i18n "user.delegations.received" username=username)}}</h2>
 

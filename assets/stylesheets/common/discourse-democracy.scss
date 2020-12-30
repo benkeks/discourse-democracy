@@ -11,3 +11,8 @@ div.poll-voters > li.delegated > a > img {
 .poll-container span.percentage.fillupVotes, .poll-container span.percentage.indirectVotes {
   background: var(--primary-low);
 }
+
+div.poll .results .bar-quorum {
+  background: var(--danger);
+  height: 5px;
+}

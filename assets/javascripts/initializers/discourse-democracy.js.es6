@@ -21,43 +21,47 @@ function initializeDiscourseDemocracy(api) {
 
   api.replaceIcon('notification.democracy_delegation', 'random');
 
+  api.reopenWidget('discourse-poll', {
+    init(attrs) {
+      // parse min quora and and fill-up targets from the option html
+      attrs.poll.options.forEach(op => {
+        op.html = op.html
+            .replaceAll(/\[min\s*=\s*(\d+)\s*]/g, (match, number) => {op.min = parseInt(number); return ""})
+            .replaceAll(/\[fill\s*=\s*(\d+)\s*]/g, (match, number) => {op.fill = parseInt(number); return ""});
+      });
+      // parse delegation weights from title (and remove it from title html)
+      attrs.delegatedVoteWeight = 0;
+      if (attrs.poll.title) {
+        attrs.poll.title = attrs.poll.title.replaceAll(/\[delegate\s*=\s*(\d+\.\d+)\s*]/g,
+          (match, number) => {attrs.delegatedVoteWeight = parseFloat(number); return ""});
+        attrs.titleHTML = attrs.titleHTML.replaceAll(/\[delegate\s*=\s*(\d+\.\d+)\s*]/g, "");
+      }
+    }
+  });
+
   api.reopenWidget('discourse-poll-standard-results', {
     tagName: "ul.results",
     buildKey: (attrs) => `poll-standard-results-${attrs.id}`,
 
     html(attrs, state) {
-      const { poll, post } = attrs;
+      const { poll, post, delegatedVoteWeight } = attrs;
       const options = poll.get("options");
-      const delegatedVoteWeight = 0.5;
 
       if (options) {
         let voters = poll.get("voters");
         const isPublic = poll.get("public");
         const optionsWithVotes = [...options];
 
-        console.log("options:");
-        console.log(optionsWithVotes);
-
         optionsWithVotes.forEach(op => {
-          // parse min quora and and fill-up targets from the option html
-          op.html = op.html
-            .replaceAll(/\[min\s*=\s*(\d+)\s*]/g, (match, number) => {op.min = parseInt(number); return ""})
-            .replaceAll(/\[fill\s*=\s*(\d+)\s*]/g, (match, number) => {op.fill = parseInt(number); return ""});
-
           op.directVotes = op.votes;
           op.indirectVotes = op.indirectVotes || 0;
           op.fillupVotes = op.fillupVotes || 0;
           op.summedVotes = op.summedVotes || 0;
         });
 
-        if (isPublic && !state.loaded) {
+        if (isPublic && !state.loaded && delegatedVoteWeight > 0) {
           state.voters = poll.get("preloaded_voters");
-          console.log(state.voters);
-
           state.delegatedVotes = state.delegatedVotes || post.polls_delegated_votes[poll.get("name")];
-
-          console.log("delegated:");
-          console.log(state.delegatedVotes);
           state.delegatedVotes.forEach(vote => {
             const id = vote.parent_vote.digest;
             const proxyId = vote.parent_vote.user_id;
@@ -71,7 +75,7 @@ function initializeDiscourseDemocracy(api) {
               voteOption.indirectVotes += delegatedVoteWeight * vote.delegated_votes.length;
               voters += delegatedVoteWeight * vote.delegated_votes.length;
             }
-            state.delegatedVotes = [];
+            vote.delegated_votes = [];
             poll.set("voters", voters);
           });
 
@@ -139,6 +143,15 @@ function initializeDiscourseDemocracy(api) {
               h("div.bar", { attributes: { style: `width:${per}%` } })
             )
           );
+
+          if (option.min) {
+            contents.push(
+              h(
+                "div.bar-back",
+                h("div.bar-quorum", { attributes: { style: `width:${100.0 * option.min / virtualVoters}%` } })
+              )
+            );
+          }
   
           if (isPublic) {
             contents.push(

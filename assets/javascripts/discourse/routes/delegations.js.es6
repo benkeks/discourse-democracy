@@ -12,11 +12,11 @@ export default DiscourseRoute.extend({
   },
 
   setupController(controller, model) {
-    console.log(model)
     this.controllerFor('delegations').setProperties({
       delegations: (model.delegations['*'] || []).map(u => u.username),
       mandates: model.mandates['*'] || [],
-      username: this.paramsFor('user').username
+      username: this.paramsFor('user').username,
+      showSelection: (this.paramsFor('user').username == controller.currentUser.username) || controller.currentUser.get("staff")
     });
   },
 
