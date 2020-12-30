@@ -15,13 +15,6 @@
       autocomplete="discourse"
       excludeCurrentUser=true
     }}
-
-    {{d-button
-      type="button"
-      class="btn-primary"
-      label="user.delegations.delegate"
-      action=(action "delegate")
-    }}
     <div class="instructions">
       {{html-safe (i18n "user.delegations.short_instructions" username=username)}}
     </div>

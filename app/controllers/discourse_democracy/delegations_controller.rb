@@ -9,7 +9,6 @@ module DiscourseDemocracy
 
     def delegate
       params.require(:user_name)
-      params.require(:proxy_name)
       params.require(:delegation_type)
 
       raise Discourse::InvalidAccess.new unless
@@ -17,9 +16,14 @@ module DiscourseDemocracy
       raise Discourse::InvalidParameters.new "Users may not delegate to themselves." if
         (current_user.username == params[:proxy_name]) || (params[:user_name] == params[:proxy_name])
 
-      if (proxy = User.find_by(username: params[:proxy_name])) && (user = User.find_by(username: params[:user_name]))
-        updater = DiscourseDemocracy::DelegationsUpdater.new(user, proxy)
-        updater.update(true, params[:delegation_type])
+      if user = User.find_by(username: params[:user_name])
+        if proxy = User.find_by(username: params[:proxy_name])
+          updater = DiscourseDemocracy::DelegationsUpdater.new(user, proxy)
+          updater.update(params[:delegation_type])
+        elsif params[:proxy_name] == ""
+          updater = DiscourseDemocracy::DelegationsUpdater.new(user, nil)
+          updater.update(params[:delegation_type])
+        end
         render json: success_json
       else
         render json: failed_json

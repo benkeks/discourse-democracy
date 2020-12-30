@@ -111,16 +111,16 @@ after_initialize do
       user.dem_delegations.each do |delegation_type, user_ids|
         user_ids.each do |user_id|
           if proxy = User.find_by(id: user_id)
-            updater = DiscourseDemocracy::DelegationsUpdater(user, proxy)
-            updater.update(delegation_type, false)
+            DiscourseDemocracy::DelegationsUpdater(user, nil)
+              .update(delegation_type)
           end
         end
       end
       user.dem_proxy_mandates.each do |delegation_type, user_ids|
         user_ids.each do |user_id|
           if mandator = User.find_by(id: user_id)
-            updater = DiscourseDemocracy::DelegationsUpdater(mandator, user)
-            updater.update(delegation_type, false)
+            DiscourseDemocracy::DelegationsUpdater(mandator, nil)
+              .update(delegation_type)
           end
         end
       end
