@@ -5,3 +5,6 @@ plugins:
   discourse_democracy_delegation_types:
     default: ""
     client: true
+  discourse_democracy_max_effective_delegations:
+    default: 10
+    client: true
