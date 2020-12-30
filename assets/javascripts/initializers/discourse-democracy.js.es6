@@ -17,44 +17,13 @@ function optionHtml(option) {
   return new RawHtml({ html: `<span>${$node.html()}</span>` });
 }
 
-
-function _fetchVoters(data) {
-  return ajax("/polls/voters.json", { data }).catch((error) => {
-    if (error) {
-      popupAjaxError(error);
-    } else {
-      bootbox.alert(I18n.t("poll.error_while_fetching_voters"));
-    }
-  });
-}
-
 function initializeDiscourseDemocracy(api) {
 
   api.replaceIcon('notification.democracy_delegation', 'random');
 
-  api.decorateWidget('discourse-poll-standard-results:after', helper => {
-    return helper.h('p', 'Hello');
-  });
-
   api.reopenWidget('discourse-poll-standard-results', {
     tagName: "ul.results",
     buildKey: (attrs) => `poll-standard-results-${attrs.id}`,
-  
-    // defaultState() {
-    //   return { loaded: false };
-    // },
-  
-    // fetchVoters() {
-    //   const { attrs, state } = this;
-  
-    //   return _fetchVoters({
-    //     post_id: attrs.post.id,
-    //     poll_name: attrs.poll.get("name"),
-    //   }).then((result) => {
-    //     state.voters = result.voters;
-    //     this.scheduleRerender();
-    //   });
-    // },
 
     html(attrs, state) {
       const { poll, post } = attrs;
@@ -121,6 +90,10 @@ function initializeDiscourseDemocracy(api) {
           virtualVoters += op.summedVotes;
         });
 
+        optionsWithVotes.forEach(op => {
+          if (op.min && virtualVoters <= op.min) virtualVoters = op.min;
+        });
+
         const ordered = optionsWithVotes.sort((a, b) => {
           if (a.displayVotes < b.displayVotes) {
             return 1;
@@ -152,7 +125,7 @@ function initializeDiscourseDemocracy(api) {
           const voteNumbers = [h("span.percentage", `${option.summedVotes}`)];
           if (option.fillupVotes > 0) voteNumbers.push(h("span.percentage.fillupVotes", `${option.fillupVotes}`));
           if (option.indirectVotes > 0) voteNumbers.push(h("span.percentage.indirectVotes", `${option.indirectVotes}`));
-          if (option.directVotes > 0) voteNumbers.push(h("span.percentage.directVotes", `${option.directVotes}`));
+          if (option.directVotes > 0 && voteNumbers.length > 1) voteNumbers.push(h("span.percentage.directVotes", `${option.directVotes}`));
           voteNumbers.push(optionHtml(option));
 
           contents.push(

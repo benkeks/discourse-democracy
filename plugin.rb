@@ -19,9 +19,6 @@ load File.expand_path('config/routes.rb', __dir__)
 
 load File.expand_path('../poll/app/models/poll_vote.rb', __dir__)
 
-# register_editable_user_custom_field :my_preference 
-# DiscoursePluginRegistry.serialized_current_user_fields << 'my_preference'
-
 after_initialize do
 
   Notification.types[:democracy_delegation] = 1919
@@ -31,11 +28,7 @@ after_initialize do
   load File.expand_path('app/controllers/discourse_democracy/delegations_controller.rb', __dir__)
   # https://github.com/discourse/discourse/blob/master/lib/plugin/instance.rb
 
-  #User.register_custom_field_type(:dem_delegations, :json)
-  #User.register_custom_field_type(:dem_proxy_mandates, :json)
-  #register_editable_user_custom_field :dem_delegations
   register_user_custom_field_type :dem_delegations, :string
-  #register_editable_user_custom_field :dem_proxy_mandates
   register_user_custom_field_type :dem_proxy_mandates, :string
   register_post_custom_field_type :dem_proxy_mandates, :string
   
@@ -83,7 +76,9 @@ after_initialize do
             if proxys_mandates = mandates["#{poll.id},#{vote.user_id}"]
               # select all ids of users who delegated their vote to a voter but did not (yet) cast votes in this poll themselves.
               additional_vote_ids = proxys_mandates.select do |mandator_id|
-                !user_poll_votes.any? { |vote| vote.user_id == mandator_id }
+                !user_poll_votes.any? { |vote|
+                  vote.user_id.to_s == mandator_id
+                }
               end
               # trim to maximal effective delegations per proxy vote
               additional_vote_ids = additional_vote_ids.take(SiteSetting.discourse_democracy_max_effective_delegations)
