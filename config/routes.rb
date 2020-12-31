@@ -8,4 +8,5 @@ Discourse::Application.routes.append do
 
   put '/discourse-democracy/delegations/delegate' => 'discourse_democracy/delegations#delegate'
   get '/discourse-democracy/delegations/list/:username' => 'discourse_democracy/delegations#list', constraints: { username: RouteFormat.username }
+  get '/discourse-democracy/delegations/poll/:post_id' => 'discourse_democracy/delegations#poll'
 end
