@@ -11,7 +11,6 @@ export default Controller.extend(ModalFunctionality, {
   
   @action
   setProxyNames(_, proxyNames) {
-    //this.set("proxyName", proxyNames[0]);
     let proxyName = proxyNames[0];
     return ajax(`/discourse-democracy/delegations/delegate`, {
       data: { proxy_name: proxyName || "", user_name: this.username, delegation_type: "*"},

@@ -22,5 +22,13 @@ export default DiscourseRoute.extend({
 
   renderTemplate() {
     this.render("delegations");
-  }
+  },
+
+  afterModel(user) {
+    if (
+      !(this.currentUser)
+    ) {
+      this.transitionTo("user");
+    }
+  },
 });
