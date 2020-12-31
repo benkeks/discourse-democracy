@@ -4,7 +4,7 @@
 # about: Facilitate digital voting procedures in Discourse.
 # version: 0.1
 # authors: benkeks
-# url: https://github.com/benkeks
+# url: https://github.com/benkeks/discourse-democracy
 
 register_asset 'stylesheets/common/discourse-democracy.scss'
 register_asset 'stylesheets/desktop/discourse-democracy.scss', :desktop
