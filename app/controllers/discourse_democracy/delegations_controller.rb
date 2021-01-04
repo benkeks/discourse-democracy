@@ -62,19 +62,23 @@ module DiscourseDemocracy
                 .poll_votes
                 .joins(:poll_option, :user)
                 .select('poll_options.digest,users.username,user_id,poll_option_id')
+            added_votes = []
             poll_delegated_votes = user_poll_votes.flat_map do |vote|
               if proxys_mandates = mandates["#{poll.id},#{vote.user_id}"]
                 # select all ids of users who delegated their vote to a voter but did not (yet) cast votes in this poll themselves.
+                puts added_votes
                 additional_vote_ids = proxys_mandates.select do |mandator_id|
+                  mandator_id_i = mandator_id.to_i
                   !user_poll_votes.any? { |vote|
-                    vote.user_id.to_s == mandator_id
-                  }
+                    (vote.user_id == mandator_id_i)
+                  } && !added_votes.include?(mandator_id)
                 end
                 # trim to maximal effective delegations per proxy vote
                 additional_vote_ids = additional_vote_ids.take(SiteSetting.discourse_democracy_max_effective_delegations)
                 # also return info on the voters whose votes were decided by proxy
                 delegated_votes_cast = User.where(id: additional_vote_ids).map { |u| UserNameSerializer.new(u).serializable_hash }
                 if delegated_votes_cast && !delegated_votes_cast.empty?
+                  added_votes.push(*additional_vote_ids)
                   [{ delegated_votes: delegated_votes_cast, ids: additional_vote_ids, parent_vote: vote}]
                 else
                   []
