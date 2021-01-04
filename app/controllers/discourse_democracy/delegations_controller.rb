@@ -31,7 +31,7 @@ module DiscourseDemocracy
     def list
       params.require(:username)
 
-      user = User.find_by(username: params[:username])
+      user = User.where('lower(username) = ?', params[:username].downcase).first
       raise Discourse::InvalidParameters.new unless user.present?
 
       delegations_serialized = user.dem_delegations.map do |delegation_type, delegate_ids|
@@ -66,7 +66,6 @@ module DiscourseDemocracy
             poll_delegated_votes = user_poll_votes.flat_map do |vote|
               if proxys_mandates = mandates["#{poll.id},#{vote.user_id}"]
                 # select all ids of users who delegated their vote to a voter but did not (yet) cast votes in this poll themselves.
-                puts added_votes
                 additional_vote_ids = proxys_mandates.select do |mandator_id|
                   mandator_id_i = mandator_id.to_i
                   !user_poll_votes.any? { |vote|
