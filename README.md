@@ -51,7 +51,7 @@ Changes to the delegations after the proxy has voted in a poll do not affect the
 
 ## Limitations
 
-* This is a first prototype---and the very first thing I'v ever implemented with Discourse/Rail/Ember. So it should not be used for giant and important polls in production.
+* This is a first prototype---and the very first thing I'v ever implemented with Discourse/Rails/Ember. So it should not be used for giant and important polls in production.
 * The plugin does a lot of its counting in the client. Therefore, the vote results cannot easily be accessed from other directions. (The reason is that I did not find a good way of extending the Polls-Plugin backend from within another plugin.)
 * For now, group restrictions of polls are not taken into consideration when adding proxy votes.
 * For now, there are no categories/types of delegations. However, the custom fields in the backend already have a layer for different kinds of delegation (for now, there implicitly is only one category `*`).
