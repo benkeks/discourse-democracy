@@ -27,8 +27,8 @@ function initializeDiscourseDemocracy(api) {
       attrs.poll.options.forEach(op => {
         // parse min quora and and fill-up targets from the option html
         op.html = op.html
-            .replaceAll(/\[min\s*=\s*(\d+)\s*]/g, (match, number) => {op.min = parseInt(number); return ""})
-            .replaceAll(/\[fill\s*=\s*(\d+)\s*]/g, (match, number) => {op.fill = parseInt(number); return ""});
+            .replace(/\[min\s*=\s*(\d+)\s*]/g, (match, number) => {op.min = parseInt(number); return ""})
+            .replace(/\[fill\s*=\s*(\d+)\s*]/g, (match, number) => {op.fill = parseInt(number); return ""});
 
         // create fields for user-side vote counting
         op.directVotes = op.votes;
@@ -40,9 +40,9 @@ function initializeDiscourseDemocracy(api) {
       // parse delegation weights from title (and remove it from title html)
       attrs.delegatedVoteWeight || (attrs.delegatedVoteWeight = 0);
       if (attrs.poll.title) {
-        attrs.poll.title = attrs.poll.title.replaceAll(/\[delegate\s*=\s*(\d+\.\d+)\s*]/g,
+        attrs.poll.title = attrs.poll.title.replace(/\[delegate\s*=\s*(\d+\.\d+)\s*]/g,
           (match, number) => {attrs.delegatedVoteWeight = parseFloat(number); return ""});
-        attrs.titleHTML = attrs.titleHTML.replaceAll(/\[delegate\s*=\s*(\d+\.\d+)\s*]/g, "");
+        attrs.titleHTML = attrs.titleHTML.replace(/\[delegate\s*=\s*(\d+\.\d+)\s*]/g, "");
       }
     }
   });
