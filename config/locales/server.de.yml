@@ -1,0 +1,4 @@
+de:
+  site_settings:
+    discourse_democracy_enabled: "DiscourseDemocracy-Plugin aktivieren"
+    discourse_democracy_max_effective_delegations: "Maximal zählende übertragene Stimmen pro Vertretung"
