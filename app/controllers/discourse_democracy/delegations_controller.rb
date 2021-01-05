@@ -14,7 +14,7 @@ module DiscourseDemocracy
       raise Discourse::InvalidParameters.new "Users may not delegate to themselves." if
         (current_user.username == params[:proxy_name]) || (params[:user_name] == params[:proxy_name])
 
-      if user = User.find_by(username: params[:user_name])
+      if user = User.where('lower(username) = ?', params[:user_name].downcase).first
         if proxy = User.find_by(username: params[:proxy_name])
           updater = DiscourseDemocracy::DelegationsUpdater.new(user, proxy)
           updater.update(params[:delegation_type])
