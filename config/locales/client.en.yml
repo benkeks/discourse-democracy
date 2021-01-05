@@ -7,6 +7,8 @@ en:
         short_instructions: "If you name a proxy, they can vote on your behalf. (You may always override this by voting yourself.)"
         received: "People who have delegated their vote to %{username}"
         none: "%{username} does not carry delegated votes."
+        title_delegation: "%{username}'s proxy"
+        no_delegation: "%{username} has not named any proxies."
     discourse_democracy:
     notifications:
       democracy_delegation: "<span>{{username}}</span> delegated their vote to you!"

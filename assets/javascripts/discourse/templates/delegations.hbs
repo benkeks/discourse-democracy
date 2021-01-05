@@ -20,6 +20,23 @@
       {{html-safe (i18n "user.delegations.short_instructions" username=username)}}
     </div>
   </form>
+
+  {{else if hasProxy}}
+
+  <div class="user-proxies">
+    <h2>{{html-safe (i18n "user.delegations.title_delegation" username=username)}}</h2>
+
+    {{#each delegationUsers as |user|}}
+      {{user-info user=user}}
+    {{/each}}
+  </div>
+
+  {{else}}
+
+  <div class="user-proxies">
+    {{html-safe (i18n "user.delegations.no_delegation" username=username)}}
+  </div>
+
   {{/if}}
 
   {{#if anyMandates}}

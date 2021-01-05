@@ -7,6 +7,8 @@ de:
         short_instructions: "Deine Vertretung kann in deinem Namen stimmen abgeben, wenn du nicht an einer Abstimmung teilnimmst."
         received: "Leute, deren Stimmen von %{username} geführt werden"
         none: "%{username} führt keine zusätzlichen Stimmen."
+        title_delegation: "%{username}s Vertretung"
+        no_delegation: "%{username} hat keine Vertretung benannt."
     discourse_democracy:
     notifications:
       democracy_delegation: "<span>{{username}}</span> hat dir die Stimme übertragen!"

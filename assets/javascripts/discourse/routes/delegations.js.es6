@@ -13,8 +13,11 @@ export default DiscourseRoute.extend({
 
   setupController(controller, model) {
     const mandates = model.mandates['*'] || [];
+    const delegationUsers = model.delegations['*'] || [];
     this.controllerFor('delegations').setProperties({
-      delegations: (model.delegations['*'] || []).map(u => u.username),
+      delegations: delegationUsers.map(u => u.username),
+      delegationUsers: delegationUsers,
+      hasProxy: delegationUsers.length > 0,
       mandates: mandates,
       anyMandates: mandates.length > 0,
       username: this.paramsFor('user').username,
