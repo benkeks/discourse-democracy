@@ -12,9 +12,11 @@ export default DiscourseRoute.extend({
   },
 
   setupController(controller, model) {
+    const mandates = model.mandates['*'] || [];
     this.controllerFor('delegations').setProperties({
       delegations: (model.delegations['*'] || []).map(u => u.username),
-      mandates: model.mandates['*'] || [],
+      mandates: mandates,
+      anyMandates: mandates.length > 0,
       username: this.paramsFor('user').username,
       showSelection: (this.paramsFor('user').username == controller.currentUser.username) || controller.currentUser.get("staff")
     });

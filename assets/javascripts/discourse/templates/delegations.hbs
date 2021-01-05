@@ -22,6 +22,8 @@
   </form>
   {{/if}}
 
+  {{#if anyMandates}}
+
   <h2>{{html-safe (i18n "user.delegations.received" username=username)}}</h2>
 
   <div class="mandator-users">
@@ -29,5 +31,13 @@
       {{user-info user=user}}
     {{/each}}
   </div>
+
+  {{else}}
+
+  <div class="mandator-users empty">
+    {{html-safe (i18n "user.delegations.none" username=username)}}
+  </div>
+
+  {{/if}}
 
 </section>
