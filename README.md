@@ -14,7 +14,7 @@ as the plugin command.
 
 Enabling the plugin will change poll results to display absolute numbers of votes instead of percentages.
 
-* `[delegate=1.0]` in a *poll title* will enable proxy voting for public polls (i.e. polls with “show who voted” ticked). The supplied float determines the weight of proxy votes. E.g. `[delegate=0.5]` will make proxy votes count half as much as conventioanl votes in this poll.
+* `[delegate=1.0]` in a *poll title* will enable proxy voting for public polls (i.e. polls with “show who voted” ticked). The supplied float determines the weight of proxy votes. E.g. `[delegate=0.5]` will make proxy votes count half as much as conventional votes in this poll.
 * `[min=10]` in a *poll option text* will set a quroum (of 10) for an option.
 * `[fill=10]` in a *poll option text* will add virtual votes to an option if the overall participation is below the number (10, in the example).
 
