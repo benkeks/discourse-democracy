@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# name: DiscourseDemocracy
+# name: discourse-democracy
 # about: Facilitate digital voting procedures in Discourse.
 # version: 0.1.1
 # authors: benkeks
@@ -12,15 +12,15 @@ register_asset 'stylesheets/mobile/discourse-democracy.scss', :mobile
 
 enabled_site_setting :discourse_democracy_enabled
 
-PLUGIN_NAME ||= 'DiscourseDemocracy'
-
 load File.expand_path('lib/discourse-democracy/engine.rb', __dir__)
 load File.expand_path('config/routes.rb', __dir__)
 
 load File.expand_path('../poll/app/models/poll_vote.rb', __dir__)
 
-
 after_initialize do
+  module ::DiscourseDemocracy
+    PLUGIN_NAME ||= 'discourse-democracy'
+  end
 
   require_dependency 'post_alerter'
   Notification.types[:democracy_delegation] = 1919

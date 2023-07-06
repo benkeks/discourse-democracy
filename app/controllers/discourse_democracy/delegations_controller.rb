@@ -1,6 +1,6 @@
 module DiscourseDemocracy
   class DelegationsController < ::ApplicationController
-    requires_plugin DiscourseDemocracy
+    requires_plugin DiscourseDemocracy::PLUGIN_NAME
 
     def index
     end
