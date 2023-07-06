@@ -6,15 +6,17 @@ import { ajax } from "discourse/lib/ajax";
 import ModalFunctionality from "discourse/mixins/modal-functionality";
 
 export default Controller.extend(ModalFunctionality, {
-  model: null,
+  model: "",
   
   @action
-  setProxyNames(_, proxyNames) {
-    let proxyName = proxyNames[0];
+  setProxyNames(_, proxies) {
+    let proxyName = proxies[0]?.username || "";
+    let newDelegations = proxyName === "" ? [] : [proxyName];
     return ajax(`/discourse-democracy/delegations/delegate`, {
-      data: { proxy_name: proxyName || "", user_name: this.username, delegation_type: "*"},
+      data: { proxy_name: proxyName, user_name: this.username, delegation_type: "*"},
       type: "PUT",
     })
-      .catch(popupAjaxError);
+      .catch(popupAjaxError)
+      .then(() => this.set("delegations", newDelegations))
   },
 });

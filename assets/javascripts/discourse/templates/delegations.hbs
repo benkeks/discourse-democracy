@@ -3,18 +3,20 @@
   {{#if showSelection}}
   <form>
     <label class="control-label">{{i18n "user.delegations.title"}}</label>
-    {{user-selector
-      single=true
-      onChangeCallback=(action "setProxyNames")
-      fullWidthWrap=false
-      allowAny=false
-      includeMessageableGroups=false
-      placeholderKey="composer.users_placeholder"
-      tabindex="1"
-      usernames=delegations
-      hasGroups=false
+    {{email-group-user-chooser
+      onChange=(action "setProxyNames")
+      value=delegations
       autocomplete="discourse"
-      excludeCurrentUser=true
+      tabindex="1"
+      options=(hash
+        maximum=1
+        fullWidthWrap=false
+        allowAny=false
+        allowEmails=false
+        includeMessageableGroups=false
+        placeholderKey="composer.users_placeholder"
+        hasGroups=false
+      )
     }}
     <div class="instructions">
       {{html-safe (i18n "user.delegations.short_instructions" username=username)}}
