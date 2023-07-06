@@ -2,7 +2,7 @@
 
 # name: discourse-democracy
 # about: Facilitate digital voting procedures in Discourse.
-# version: 0.1.1
+# version: 0.1.2
 # authors: benkeks
 # url: https://github.com/benkeks/discourse-democracy
 
