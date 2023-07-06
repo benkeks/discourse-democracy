@@ -59,8 +59,8 @@ function initializeDiscourseDemocracy(api) {
           bootbox.alert(I18n.t("poll.error_while_fetching_voters"));
         }
       }).then((result) => {
-        this.state.delegatedVotes = result[poll.get('name')];
-        const options = poll.get("options");
+        this.state.delegatedVotes = result[poll.name];
+        const options = poll.options;
         options.forEach(op => op.indirectVotes = 0);
         this.state.delegatedVotes.forEach(vote => {
           const id = vote.parent_vote.digest;
@@ -76,16 +76,15 @@ function initializeDiscourseDemocracy(api) {
 
     html(attrs, state) {
       const { poll, post, delegatedVoteWeight } = attrs;
-      const options = poll.get("options");
+      const options = poll.options;
 
       if (options) {
-        let voters = poll.get("voters");
-        const isPublic = poll.get("public");
+        const isPublic = poll.public;
         const optionsWithVotes = [...options];
 
-        if (isPublic && !state.loaded) {
-          state.voters = poll.get("preloaded_voters");
-          state.loaded = true;
+        if (isPublic) {
+          state.voters = poll.preloaded_voters;
+          state.loading = false;
         }
 
         if (delegatedVoteWeight > 0 && !state.delegatedVotes) {
@@ -166,7 +165,7 @@ function initializeDiscourseDemocracy(api) {
               this.attach("discourse-poll-voters", {
                 postId: attrs.post.id,
                 optionId: option.id,
-                pollName: poll.get("name"),
+                pollName: poll.name,
                 totalVotes: option.votes,
                 voters: (state.voters && state.voters[option.id]) || [],
                 delegatedVotes: state.delegatedVotes || []
@@ -183,7 +182,7 @@ function initializeDiscourseDemocracy(api) {
 
   api.reopenWidget("discourse-poll-voters", {
     html(attrs, state) {
-      if (attrs.voters && state.loaded === "new") {
+      if (attrs.voters) {
         state.voters = attrs.voters;
       }
 
