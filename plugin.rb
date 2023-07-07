@@ -17,10 +17,11 @@ load File.expand_path('config/routes.rb', __dir__)
 
 load File.expand_path('../poll/app/models/poll_vote.rb', __dir__)
 
+module ::DiscourseDemocracy
+  PLUGIN_NAME = 'discourse-democracy'
+end
+
 after_initialize do
-  module ::DiscourseDemocracy
-    PLUGIN_NAME ||= 'discourse-democracy'
-  end
 
   require_dependency 'post_alerter'
   Notification.types[:democracy_delegation] = 1919
